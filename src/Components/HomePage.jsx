@@ -76,12 +76,12 @@ const HomePage = () => {
                 </p>
 
                 <div className="d-flex flex-wrap gap-3">
-                  <a
-                    href="/register"
+                  <Link
+                    to={"/registration"}
                     className="btn btn-solid theme-primary btn-lg px-4"
                   >
                     Get Started Free <span aria-hidden="true">→</span>
-                  </a>
+                  </Link>
 
                   <a
                     href="#features"
@@ -294,12 +294,12 @@ const HomePage = () => {
                   plan ahead and build healthier financial habits.
                 </p>
 
-                <a
-                  href="/register"
+                <Link
+                  to={"/registration"}
                   className="btn btn-solid theme-primary px-4 mt-3"
                 >
                   Start Your Journey →
-                </a>
+                </Link>
               </div>
 
               <div className="col-12 lg:col-6">
@@ -359,12 +359,12 @@ const HomePage = () => {
               Take the first step towards smarter money management.
             </p>
 
-            <a
-              href="/register"
+            <Link
+              to={"/registration"}
               className="btn btn-solid theme-inverse btn-lg px-5"
             >
               Create Your Free Account
-            </a>
+            </Link>
           </div>
         </section>
 

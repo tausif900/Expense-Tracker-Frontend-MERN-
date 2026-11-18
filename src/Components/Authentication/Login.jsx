@@ -1,6 +1,36 @@
+import axios from "axios";
 import React from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const {
+    register,
+    formState: { errors },
+    watch,
+    handleSubmit,
+  } = useForm();
+
+  // User Login functionality
+  const userLogin = async (data) => {
+    console.log(data);
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/user-login",
+        data,
+        { withCredentials: true },
+      );
+      console.log(response.data);
+      toast.success(response.data.message);
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div className="min-vh-100 bg-body">
@@ -68,7 +98,7 @@ const Login = () => {
                   </p>
                 </div>
 
-                <form>
+                <form onSubmit={handleSubmit(userLogin)}>
                   <div className="form-field mb-4">
                     <label htmlFor="email" className="form-label fw-semibold">
                       Email Address
@@ -78,7 +108,17 @@ const Login = () => {
                       className="form-control"
                       id="email"
                       placeholder="Enter your email"
+                      {...register("email", {
+                        required: "email is required",
+                        pattern: {
+                          value: /^\S+@\S+\.\S+$/,
+                          message: "Please enter a valid email",
+                        },
+                      })}
                     />
+                    {errors.email && (
+                      <p className="fg-danger small">{errors.email.message}</p>
+                    )}
                   </div>
 
                   <div className="form-field mb-3">
@@ -93,7 +133,26 @@ const Login = () => {
                       className="form-control"
                       id="password"
                       placeholder="Enter your password"
+                      {...register("password", {
+                        required: "password is required",
+                        minLength: {
+                          value: 8,
+                          message:
+                            "Password must contain at least 8 characters",
+                        },
+                        pattern: {
+                          value:
+                            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$!]).*$/,
+                          message:
+                            "Password must contain uppercase, lowercase, number and special character",
+                        },
+                      })}
                     />
+                    {errors.password && (
+                      <p className="fg-danger small">
+                        {errors.password.message}
+                      </p>
+                    )}
                   </div>
 
                   <div className="d-flex justify-content-between align-items-center mb-4">
@@ -121,12 +180,12 @@ const Login = () => {
                 <div className="text-center mt-4">
                   <p className="fg-secondary">
                     Don't have an account?
-                    <a
-                      href="/register"
+                    <Link
+                      to={"/registration"}
                       className="text-decoration-none fg-primary fw-semibold ms-1"
                     >
                       Create Account
-                    </a>
+                    </Link>
                   </p>
                 </div>
 
